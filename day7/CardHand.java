@@ -30,21 +30,38 @@ class CardHand implements Comparable<CardHand> {
 		}
 	}
 
-	static Map<Character, Integer> valueMap = new HashMap<>();
+	static Map<Character, Integer> valueMap_Part1 = new HashMap<>();
 	static {
-		valueMap.put('A', 14);
-		valueMap.put('K', 13);
-		valueMap.put('Q', 12);
-		valueMap.put('J', 11);
-		valueMap.put('T', 10);
-		valueMap.put('9', 9);
-		valueMap.put('8', 8);
-		valueMap.put('7', 7);
-		valueMap.put('6', 6);
-		valueMap.put('5', 5);
-		valueMap.put('4', 4);
-		valueMap.put('3', 3);
-		valueMap.put('2', 2);
+		valueMap_Part1.put('A', 14);
+		valueMap_Part1.put('K', 13);
+		valueMap_Part1.put('Q', 12);
+		valueMap_Part1.put('J', 11);
+		valueMap_Part1.put('T', 10);
+		valueMap_Part1.put('9', 9);
+		valueMap_Part1.put('8', 8);
+		valueMap_Part1.put('7', 7);
+		valueMap_Part1.put('6', 6);
+		valueMap_Part1.put('5', 5);
+		valueMap_Part1.put('4', 4);
+		valueMap_Part1.put('3', 3);
+		valueMap_Part1.put('2', 2);
+	}
+
+	static Map<Character, Integer> valueMap_Part2 = new HashMap<>();
+	static {
+		valueMap_Part2.put('A', 14);
+		valueMap_Part2.put('K', 13);
+		valueMap_Part2.put('Q', 12);
+		valueMap_Part2.put('T', 11);
+		valueMap_Part2.put('9', 10);
+		valueMap_Part2.put('8', 9);
+		valueMap_Part2.put('7', 8);
+		valueMap_Part2.put('6', 7);
+		valueMap_Part2.put('5', 6);
+		valueMap_Part2.put('4', 5);
+		valueMap_Part2.put('3', 4);
+		valueMap_Part2.put('2', 3);
+		valueMap_Part2.put('J', 2);
 	}
 
 	private String hand;
@@ -94,6 +111,19 @@ class CardHand implements Comparable<CardHand> {
 		return cardStr.toString();
 	}
 
+	public int compareTo_Part1(CardHand other) {
+		int valueDif = (this.getType().getValue() - other.getType().getValue());
+		if (valueDif != 0) return valueDif;
+		int i = 0;
+		char[] thisCards = this.getCards();
+		char[] otherCards = other.getCards();
+		while (valueDif == 0 && i  < 5) {
+			valueDif = (valueMap_Part1.get(thisCards[i]) - valueMap_Part1.get(otherCards[i]));
+			i++;
+		}
+		return valueDif;
+	}
+
 	@Override
 	public int compareTo(CardHand other) {
 		int valueDif = (this.getType().getValue() - other.getType().getValue());
@@ -102,7 +132,7 @@ class CardHand implements Comparable<CardHand> {
 		char[] thisCards = this.getCards();
 		char[] otherCards = other.getCards();
 		while (valueDif == 0 && i  < 5) {
-			valueDif = (valueMap.get(thisCards[i]) - valueMap.get(otherCards[i]));
+			valueDif = (valueMap_Part2.get(thisCards[i]) - valueMap_Part2.get(otherCards[i]));
 			i++;
 		}
 		return valueDif;
