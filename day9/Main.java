@@ -7,7 +7,7 @@ class Main {
 
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			long startTime = System.nanoTime();
-			int value = decodeFile_Part1(br);
+			int value = decodeFile_Part2(br);
 			long endTime = System.nanoTime();
 			System.out.println("\n" + value);
 			System.out.println(getExecutionTimeString(startTime, endTime));
@@ -61,6 +61,36 @@ class Main {
 
 	private static boolean isArrayAllZeroes(int[] arr) {
 		return Arrays.stream(arr).allMatch(num -> num == 0);
+	}
+
+	private static int decodeFile_Part2(BufferedReader br) throws Exception {
+		String line;
+		int sum = 0;
+		while ((line = br.readLine()) != null) {
+			String[] arr = line.trim().split(" ");
+			int[] intArr = new int[arr.length];
+			for (int i = 0; i < arr.length; i++) intArr[i] = Integer.parseInt(arr[i]);
+			int value = calculateFirstValue(intArr);
+			sum += value;
+		}
+		return sum;
+	}
+
+	private static int calculateFirstValue(int[] arr) {
+		LinkedList<int[]> list = new LinkedList<>();
+		list.addFirst(arr);
+		int[] diffArr = getDifferenceArray(arr);
+
+		while (!isArrayAllZeroes(diffArr)) {
+			int[] copy = Arrays.copyOf(diffArr, diffArr.length);
+			list.addFirst(copy);
+			diffArr = getDifferenceArray(diffArr);
+		}
+		int sum = 0;
+		for (int[] intArr: list) {
+			sum = (intArr[0] - sum);
+		}
+		return sum;
 	}
 
 	private static String getExecutionTimeString(long startTime, long endTime) {
