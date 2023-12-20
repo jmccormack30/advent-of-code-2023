@@ -79,19 +79,20 @@ public class Main {
 			fromDirection = updateFromDirection(nextDirection);
 			steps += 1;
 			if (current == start) loopComplete = true;
+			//if (steps == 200) loopComplete = true;
 		}
-		return steps;
+		return (int)Math.floor(steps / 2);
 	}
 
 	private static int updateXValue(int x, String direction) {
-		if (Main.EAST.equals(direction)) return x + 1;
-		if (Main.WEST.equals(direction)) return x - 1;
+		if (Main.SOUTH.equals(direction)) return x + 1;
+		if (Main.NORTH.equals(direction)) return x - 1;
 		return x;
 	}
 
 	private static int updateYValue(int y, String direction) {
-		if (Main.NORTH.equals(direction)) return y - 1;
-		if (Main.SOUTH.equals(direction)) return y + 1;
+		if (Main.WEST.equals(direction)) return y - 1;
+		if (Main.EAST.equals(direction)) return y + 1;
 		return y;
 	}
 
@@ -111,16 +112,16 @@ public class Main {
 
 	private static Tile getNextTile(Tile[][] tileArr, int curX, int curY, String direction) {
 		if (Main.NORTH.equals(direction)) {
-			curY -= 1;
+			curX -= 1;
 		}
 		if (Main.SOUTH.equals(direction)) {
-			curY += 1;
-		}
-		if (Main.EAST.equals(direction)) {
 			curX += 1;
 		}
+		if (Main.EAST.equals(direction)) {
+			curY += 1;
+		}
 		if (Main.WEST.equals(direction)) {
-			curX -= 1;
+			curY -= 1;
 		}
 		return tileArr[curX][curY];
 	}
@@ -134,34 +135,34 @@ public class Main {
 	}
 
 	private static String getFirstTileDirection(Tile[][] arr, int startX, int startY) {
-		Tile nextTile = arr[startX][startY - 1];
+		Tile nextTile = arr[startX - 1][startY];
 		if (Main.SOUTH.equals(nextTile.getDirection1()) || Main.SOUTH.equals(nextTile.getDirection2())) return Main.NORTH;
-		nextTile = arr[startX][startY + 1];
-		if (Main.NORTH.equals(nextTile.getDirection1()) || Main.NORTH.equals(nextTile.getDirection2())) return Main.SOUTH;
-		nextTile = arr[startX - 1][startY];
-		if (Main.EAST.equals(nextTile.getDirection1()) || Main.EAST.equals(nextTile.getDirection2())) return Main.WEST;
 		nextTile = arr[startX + 1][startY];
+		if (Main.NORTH.equals(nextTile.getDirection1()) || Main.NORTH.equals(nextTile.getDirection2())) return Main.SOUTH;
+		nextTile = arr[startX][startY - 1];
+		if (Main.EAST.equals(nextTile.getDirection1()) || Main.EAST.equals(nextTile.getDirection2())) return Main.WEST;
+		nextTile = arr[startX][startY + 1];
 		if (Main.WEST.equals(nextTile.getDirection1()) || Main.WEST.equals(nextTile.getDirection2())) return Main.EAST;
 		throw new RuntimeException("No valid next direction!");
 	}
 
 	private static Tile getFirstTile(Tile[][] arr, int startX, int startY, String fromDirection) {
-		Tile nextTile = arr[startX][startY - 1];
+		Tile nextTile = arr[startX - 1][startY];
 		if (Main.SOUTH.equals(nextTile.getDirection1()) || Main.SOUTH.equals(nextTile.getDirection2())) {
 			fromDirection = Main.SOUTH;
 			return nextTile;
 		}
-		nextTile = arr[startX][startY + 1];
+		nextTile = arr[startX + 1][startY];
 		if (Main.NORTH.equals(nextTile.getDirection1()) || Main.NORTH.equals(nextTile.getDirection2())) {
 			fromDirection = Main.NORTH;
 			return nextTile;
 		}
-		nextTile = arr[startX - 1][startY];
+		nextTile = arr[startX][startY - 1];
 		if (Main.EAST.equals(nextTile.getDirection1()) || Main.EAST.equals(nextTile.getDirection2())) {
 			fromDirection = Main.EAST;
 			return nextTile;
 		}
-		nextTile = arr[startX + 1][startY];
+		nextTile = arr[startX][startY + 1];
 		if (Main.WEST.equals(nextTile.getDirection1()) || Main.WEST.equals(nextTile.getDirection2())) {
 			startX += 1;
 			fromDirection = Main.WEST;
