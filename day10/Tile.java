@@ -6,7 +6,9 @@ public enum Tile {
 	SOUTH_WEST('7', Main.SOUTH, Main.WEST),
 	SOUTH_EAST('F', Main.SOUTH, Main.EAST),
 	GROUND('.', null, null),
-	START('S', null, null);
+	START('S', null, null),
+	ENCLOSED('I', null, null),
+	OUTSIDE('0', null, null);
 
 	char value;
 	private final String direction1;
